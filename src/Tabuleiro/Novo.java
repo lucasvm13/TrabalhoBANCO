@@ -1,7 +1,6 @@
 package Tabuleiro;
 
 import Jogador.Jogador;
-import Noticias.MainNoticias;
 import Noticias.Noticia;
 
 public class Novo {

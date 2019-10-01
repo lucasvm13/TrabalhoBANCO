@@ -11,13 +11,13 @@ public class Jogador {
 	public Jogador() {
 		this.saldoJogador = 2500;
 		this.estaPrisao = false;
-		this.posicaoJogador = 0;
+		this.posicaoJogador = -1;
 	}
 	
 	public Jogador(String nome) {
 		saldoJogador = 2500;
 		estaPrisao = false;
-		posicaoJogador = 0;
+		posicaoJogador = -1;
 		nomeJogador = nome;
 	}
 

@@ -1,7 +1,6 @@
 package Tabuleiro;
 
 import Jogador.Jogador;
-import Noticias.MainNoticias;
 import Noticias.Noticia;
 
 public class Tabuleiro {
@@ -16,14 +15,14 @@ public class Tabuleiro {
 			inicio.anterior = novo;
 			inicio = novo;
 			fim.proximo = inicio;
-			
+
 		} else {
 			inicio = fim = atual = novo;
 			novo.proximo = novo;
 			novo.anterior = novo;
 		}
 	}
-	
+
 	public void InsereInicioNoticia(Noticia n) {
 		Novo novo = new Novo(n);
 		if (inicio != null) {
@@ -32,15 +31,15 @@ public class Tabuleiro {
 			inicio.anterior = novo;
 			inicio = novo;
 			fim.proximo = inicio;
-			
+
 		} else {
 			inicio = fim = atual = novo;
 			novo.proximo = novo;
 			novo.anterior = novo;
 		}
-		
+
 	}
-	
+
 	public void InsereInicioImovel(Imovel imovel) {
 		Novo novo = new Novo(imovel);
 		if (inicio != null) {
@@ -49,13 +48,15 @@ public class Tabuleiro {
 			inicio.anterior = novo;
 			inicio = novo;
 			fim.proximo = inicio;
-			
+
 		} else {
-			inicio = fim = atual = novo;
+			inicio = novo;
+			fim = novo;
+			atual = novo;
 			novo.proximo = novo;
 			novo.anterior = novo;
 		}
-		
+
 	}
 
 	public boolean Vazio() {
@@ -63,11 +64,11 @@ public class Tabuleiro {
 	}
 
 	public String RetiraInicio() {
-		
+
 		String retVal = inicio.valor;
-		if(inicio==fim) {
-			inicio=null;
-			
+		if (inicio == fim) {
+			inicio = null;
+
 		} else {
 			inicio = inicio.proximo;
 			fim.proximo = inicio;
@@ -75,18 +76,12 @@ public class Tabuleiro {
 		return retVal;
 	}
 
-	/*public void InsereFim(Jogador jogador) {
-		Novo novo = new Novo(jogador);
-		if (inicio == null) {
-			inicio = fim = novo;
-		} else {
-			fim.proximo = novo;
-			novo.anterior = fim;
-			novo.proximo = inicio;
-			inicio.anterior = novo;
-		}
-	}
-*/
+	/*
+	 * public void InsereFim(Jogador jogador) { Novo novo = new Novo(jogador); if
+	 * (inicio == null) { inicio = fim = novo; } else { fim.proximo = novo;
+	 * novo.anterior = fim; novo.proximo = inicio; inicio.anterior = novo; } }
+	 */
+	
 	public void moveParaPosicao(int pos) {
 		atual = inicio;
 		for (int i = 1; i < pos; i++) {
