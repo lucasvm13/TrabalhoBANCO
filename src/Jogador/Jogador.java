@@ -6,14 +6,11 @@ public class Jogador {
 	double saldoJogador;
 	boolean estaPrisao;
 	int posicaoJogador;
-	int somaDadosJogador;
 
 	public Jogador() {
-		this.saldoJogador = 2500;
-		this.estaPrisao = false;
-		this.posicaoJogador = -1;
+		
 	}
-	
+
 	public Jogador(String nome) {
 		saldoJogador = 2500;
 		estaPrisao = false;

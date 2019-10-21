@@ -6,7 +6,7 @@ import Noticias.Noticia;
 public class Novo {
 
 	Novo proximo, anterior;
-	String valor;
+	public String valor;
 	
 	public Novo(Jogador jogador) {
 		valor = jogador.getNomeJogador();
@@ -20,7 +20,7 @@ public class Novo {
 		anterior = null;
 	}
 	public Novo(Noticia n) {
-		valor = "[Retire uma Noticia]";
+		valor = "Notícia";
 		proximo = null;
 		anterior = null;
 	}

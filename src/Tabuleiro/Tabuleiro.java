@@ -5,62 +5,61 @@ import Noticias.Noticia;
 
 public class Tabuleiro {
 
-	Novo inicio, fim, atual, anterior = null;
+	Novo inicio, fim;
+	public Novo atual;
+	Novo anterior = null;
+
+	public boolean Vazio() {
+		return inicio == null;
+	}
 
 	public void InsereInicioJogador(Jogador jogador) {
 		Novo novo = new Novo(jogador);
-		if (inicio != null) {
+		if (Vazio()) {
+			inicio = novo;
+			fim = novo;
+			atual = novo;
+		} else {
 			novo.proximo = inicio;
-			novo.anterior = fim;
 			inicio.anterior = novo;
+			novo.anterior = fim;
 			inicio = novo;
 			fim.proximo = inicio;
-
-		} else {
-			inicio = fim = atual = novo;
-			novo.proximo = novo;
-			novo.anterior = novo;
 		}
 	}
 
 	public void InsereInicioNoticia(Noticia n) {
 		Novo novo = new Novo(n);
-		if (inicio != null) {
+		if (Vazio()) {
+			inicio = novo;
+			fim = novo;
+			atual = novo;
+
+		} else {
 			novo.proximo = inicio;
 			novo.anterior = fim;
 			inicio.anterior = novo;
 			inicio = novo;
 			fim.proximo = inicio;
-
-		} else {
-			inicio = fim = atual = novo;
-			novo.proximo = novo;
-			novo.anterior = novo;
 		}
 
 	}
 
 	public void InsereInicioImovel(Imovel imovel) {
 		Novo novo = new Novo(imovel);
-		if (inicio != null) {
+		if (Vazio()) {
+			inicio = novo;
+			fim = novo;
+			atual = novo;
+
+		} else {
 			novo.proximo = inicio;
 			novo.anterior = fim;
 			inicio.anterior = novo;
 			inicio = novo;
 			fim.proximo = inicio;
-
-		} else {
-			inicio = novo;
-			fim = novo;
-			atual = novo;
-			novo.proximo = novo;
-			novo.anterior = novo;
 		}
 
-	}
-
-	public boolean Vazio() {
-		return inicio == null;
 	}
 
 	public String RetiraInicio() {
@@ -73,15 +72,10 @@ public class Tabuleiro {
 			inicio = inicio.proximo;
 			fim.proximo = inicio;
 		}
+
 		return retVal;
 	}
 
-	/*
-	 * public void InsereFim(Jogador jogador) { Novo novo = new Novo(jogador); if
-	 * (inicio == null) { inicio = fim = novo; } else { fim.proximo = novo;
-	 * novo.anterior = fim; novo.proximo = inicio; inicio.anterior = novo; } }
-	 */
-	
 	public void moveParaPosicao(int pos) {
 		atual = inicio;
 		for (int i = 1; i < pos; i++) {
@@ -99,11 +93,60 @@ public class Tabuleiro {
 		} else {
 
 			moveParaPosicao(posicao);
-
-			atual.proximo.anterior = novo;
 			novo.proximo = atual.proximo;
 			novo.anterior = atual;
 			atual.proximo = novo;
+			atual.proximo.anterior = novo;
 		}
+	}
+
+	public void inserePosImovel(Imovel imovel, int posicao) {
+
+		Novo novo = new Novo(imovel);
+
+		if (posicao == 0) {
+			InsereInicioImovel(imovel);
+
+		} else {
+
+			moveParaPosicao(posicao);
+			novo.proximo = atual.proximo;
+			novo.anterior = atual;
+			atual.proximo = novo;
+			atual.proximo.anterior = novo;
+		}
+	}
+
+	public String retiraNaPos(int posicao) {
+
+		moveParaPosicao(posicao);
+		String retVal = atual.proximo.valor;
+		atual.proximo.anterior = atual;
+		atual.proximo = atual.proximo.proximo;
+		return retVal;
+	}
+
+	public void InsereImovelNoFim(Imovel imovel) {
+		Novo novo = new Novo(imovel);
+		if (Vazio()) {
+			inicio = novo;
+			fim = novo;
+			atual = novo;
+		} else {
+			
+			novo.anterior = fim;
+			inicio.anterior = fim;
+			fim.proximo = novo;
+			fim = novo;
+			
+		}
+	}
+
+	public String retiraFim() {
+		String retVal = fim.valor;
+		fim = fim.anterior;
+		fim.proximo = inicio;
+		return retVal;
+
 	}
 }

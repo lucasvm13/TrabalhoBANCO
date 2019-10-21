@@ -17,6 +17,10 @@ public class Imovel {
 	public Imovel() {
 
 	}
+	
+	public Imovel(String nome) {
+		this.nomeImovel = nome;
+	}
 
 	// VALOR ALUGUEL = 10% VALOR DO IMOVEL (SE NÃO TIVER CONSTRUÇÕES)
 	public Imovel(String nome, double valor) {
@@ -29,7 +33,7 @@ public class Imovel {
 		setQtdConstrucoes(0);
 	}
 
-	/*public void inserirConstrucao(Jogador jogador, Imovel imovel) {
+	public void inserirConstrucao(Jogador jogador, Imovel imovel) {
 
 		Random random = new Random();
 
@@ -111,7 +115,7 @@ public class Imovel {
 		}
 		System.out.println("Saldo Jogador: " + jogador.getSaldoJogador());
 	}
-*/
+
 	public String getNomeImovel() {
 		return nomeImovel;
 	}
