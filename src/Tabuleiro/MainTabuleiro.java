@@ -1,10 +1,6 @@
 package Tabuleiro;
 
-import java.util.ArrayList;
-import java.util.Random;
-import Jogador.Jogador;
-import Jogador.JogadorNaPos;
-import Noticias.Noticia;
+import Imovel.Imovel;
 
 public class MainTabuleiro {
 	
@@ -12,14 +8,15 @@ public class MainTabuleiro {
 	
 	public static void main(String[] args) {
 
-		Tabuleiro tabuleiro = new Tabuleiro();
+		
+		TabuleiroLista tabuleiro = new TabuleiroLista();
 		
 		// NOME IMOVEL, VALOR IMOVEL,ALUGUEL IMOVEL, TIPOCONSTRUCAO, ALUGUEL CONSTRUCAO,
 		// IMPOSTO CONSTRUCAO
 
 		Imovel imovelPrisao = new Imovel("Prisão");
 		Imovel imovelFim = new Imovel("Fim");
-		Imovel imovel0 = new Imovel("Inicio");
+		Imovel imovelInicio = new Imovel("Inicio");
 		Imovel imovel1 = new Imovel("Leblon", 20000);
 		Imovel imovel2 = new Imovel("Avenida Presidente Vargas", 30000);
 		Imovel imovel3 = new Imovel("Avenida Brigadeiro Faria Lima", 30000);
@@ -34,76 +31,43 @@ public class MainTabuleiro {
 		Imovel imovel12 = new Imovel("Jardim Europa", 55000);
 		Imovel imovel13 = new Imovel("Jardim Paulista", 45000);
 		Imovel imovel14 = new Imovel("Brooklin", 50000);
-
-		// INSERE OS IMOVEIS E AS NOTICIAS NO TABULEIRO
-
-		tabuleiro.InsereInicioImovel(imovelFim);
-		tabuleiro.InsereInicioImovel(imovel1);
-		tabuleiro.InsereInicioNoticia(null);
-		tabuleiro.InsereInicioImovel(imovel2);
-		tabuleiro.InsereInicioImovel(imovel3);
-		tabuleiro.InsereInicioImovel(imovel4);
-		tabuleiro.InsereInicioNoticia(null);
-		tabuleiro.InsereInicioImovel(imovel5);
-		tabuleiro.InsereInicioImovel(imovel6);
-		tabuleiro.InsereInicioImovel(imovel7);
-		tabuleiro.InsereInicioNoticia(null);
-		tabuleiro.InsereInicioImovel(imovel8);
-		tabuleiro.InsereInicioImovel(imovel9);
-		tabuleiro.InsereInicioImovel(imovelPrisao);
-		tabuleiro.InsereInicioImovel(imovel10);
-		tabuleiro.InsereInicioNoticia(null);
-		tabuleiro.InsereInicioImovel(imovel11);
-		tabuleiro.InsereInicioImovel(imovel12);
-		tabuleiro.InsereInicioImovel(imovel13);
-		tabuleiro.InsereInicioNoticia(null);
-		tabuleiro.InsereInicioImovel(imovel14);
-		tabuleiro.InsereInicioImovel(imovel0);
-
-
-		// INSERINDO AS NOTICIAS NA PILHA
-
-		/*
-		 * Noticia noticia = new Noticia();
-		 * noticia.empilhaNoticia("Você perdeu 50R$ !");
-		 * noticia.empilhaNoticia("Volte 1 casas !");
-		 * noticia.empilhaNoticia("Você ganhou 200R$ !");
-		 * noticia.empilhaNoticia("Avançe 3 casas !");
-		 * noticia.empilhaNoticia("Você ganhou 50R$ !");
-		 * noticia.empilhaNoticia("Você ganhou 300R$ !");
-		 * noticia.empilhaNoticia("Você foi para a prisão !");
-		 * noticia.empilhaNoticia("Você perdeu 300R$ !");
-		 * noticia.empilhaNoticia("Volte 2 casas !");
-		 * noticia.empilhaNoticia("Você perdeu 200R$ !");
-		 * noticia.empilhaNoticia("Volte ganhou um vale saída da prisão !");
-		 * noticia.empilhaNoticia("Avançe 2 casas !");
-		 * noticia.empilhaNoticia("Você ganhou 100R$ !");
-		 * noticia.empilhaNoticia("Avançe 1 casas !");
-		 * noticia.empilhaNoticia("Volte 3 casas !");
-		 * noticia.empilhaNoticia("Você perdeu 100R$ !");
-		 */
-
 		
-		 /*System.out.println(tabuleiro.inicio.proximo.valor);
-		 System.out.println(tabuleiro.inicio.anterior.valor);*/
+				
+		//INSERE INICIO, FIM E PRISÃO
+		tabuleiro.InsereInicioImovel(imovelInicio);
+		tabuleiro.InsereImovelNoFim(imovelFim);
 		
-		Jogador j1 = new Jogador("Lucas");
-		JogadorNaPos j = new JogadorNaPos();
-		j.movimentaJogador(j1);
+		// INSERE IMOVEIS E NOTICIAS
+		tabuleiro.inserePosImovel(imovel1, 1);
+		tabuleiro.inserePosImovel(imovel2, 2);
+		tabuleiro.inserePosNoticia(null, 3);
+		tabuleiro.inserePosImovel(imovel3, 4);
+		tabuleiro.inserePosImovel(imovel4, 5);
+		tabuleiro.inserePosNoticia(null, 6);
+		tabuleiro.inserePosImovel(imovel5, 7);
+		tabuleiro.inserePosImovel(imovel6, 8);
+		tabuleiro.inserePosImovel(imovel7, 9);
+		tabuleiro.inserePosImovel(imovelPrisao, 10);
+		tabuleiro.inserePosNoticia(null, 11);
+		tabuleiro.inserePosImovel(imovel8, 12);
+		tabuleiro.inserePosImovel(imovel9, 13);
+		tabuleiro.inserePosImovel(imovel10, 14);
+		tabuleiro.inserePosNoticia(null, 15);
+		tabuleiro.inserePosImovel(imovel11, 16);
+		tabuleiro.inserePosImovel(imovel12, 17);
+		tabuleiro.inserePosImovel(imovel13, 18);
+		tabuleiro.inserePosImovel(imovel14, 19);
+		tabuleiro.inserePosNoticia(null, 20);
 		
-
 		System.out.println("---Tabuleiro---");
-		while (!tabuleiro.Vazio()) {
+		
+		/*while (!tabuleiro.Vazio()) {
 			System.out.print(tabuleiro.RetiraInicio() + " --> ");
 			System.out.print(" ");
-		}
-
-		/*
-		 * if (tabuleiro.inicio.proximo.valor == "Notícia") {
-		 * System.out.println(noticia.desempilhaNoticia()); }
-		 */
-
+		}*/
 		System.out.println(" ");
-
+		
+		/*System.out.println(tabuleiro.retiraNaPos(2));*/
+		/*System.out.println(tabuleiro.mostraImovelPos(2).getNomeImovel());*/
 	}
 }

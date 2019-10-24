@@ -1,11 +1,13 @@
 package Tabuleiro;
 
+import Imovel.Imovel;
 import Jogador.Jogador;
 import Noticias.Noticia;
 
 public class Novo {
 
 	Novo proximo, anterior;
+	Imovel objImovel;
 	public String valor;
 	
 	public Novo(Jogador jogador) {
@@ -16,6 +18,7 @@ public class Novo {
 	
 	public Novo(Imovel imovel) {
 		valor = imovel.getNomeImovel();
+		objImovel = imovel;
 		proximo = null;
 		anterior = null;
 	}

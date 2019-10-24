@@ -1,11 +1,13 @@
 package ImoveisAdquiridos;
 
+import Imovel.Imovel;
+
 public class NovoImovelAdquirido {
-	
-	String imovelAdquirido;
+
+	Imovel imovelAdquirido;
 	NovoImovelAdquirido proximo;
-	
-	public NovoImovelAdquirido(String imovel) {
+
+	public NovoImovelAdquirido(Imovel imovel) {
 		imovelAdquirido = imovel;
 		proximo = null;
 	}

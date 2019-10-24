@@ -7,14 +7,19 @@ public class Jogador {
 	boolean estaPrisao;
 	int posicaoJogador;
 
+	
+	public String toString() {
+		return "Nome do jogador: " +nomeJogador + " " +" Posição atual: " +posicaoJogador;
+	}
+	
 	public Jogador() {
 		
 	}
 
 	public Jogador(String nome) {
-		saldoJogador = 2500;
+		saldoJogador = 100000;
 		estaPrisao = false;
-		posicaoJogador = -1;
+		posicaoJogador = 0;
 		nomeJogador = nome;
 	}
 
