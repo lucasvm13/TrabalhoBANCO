@@ -1,14 +1,16 @@
 package Noticias;
 
-public class Noticia {
+public class NoticiaPilha {
 
 	private NovaNoticia topo = null;
 
-	public void empilhaNoticia(String noticia) {
-		NovaNoticia novo = new NovaNoticia(noticia);
+	public void empilhaNoticia(String noticia, int efeito) {
+		NovaNoticia novo = new NovaNoticia(noticia, efeito);
 		if (topo == null)
 			topo = novo;
+
 		else {
+
 			novo.proximo = topo;
 			topo = novo;
 		}
@@ -21,6 +23,12 @@ public class Noticia {
 	public String desempilhaNoticia() {
 		String retVal = topo.textoNoticia;
 		topo = topo.proximo;
+		verificaEfeito();
 		return retVal;
+	}
+
+	public int verificaEfeito() {
+		int efect = topo.efect;
+		return efect;
 	}
 }

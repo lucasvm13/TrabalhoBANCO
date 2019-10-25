@@ -4,12 +4,15 @@ import java.util.Random;
 
 import ImoveisAdquiridos.ImovelAdquiridoFila;
 import Imovel.Imovel;
+import Jogador.FilaJogadorDaVez;
 import Jogador.Jogador;
+import Noticias.NoticiaPilha;
 
 public class Tabuleiro {
 
 	TabuleiroLista tabuleiro = new TabuleiroLista();
 	ImovelAdquiridoFila imovelAdquirido = new ImovelAdquiridoFila();
+	FilaJogadorDaVez jogadorDaVez = new FilaJogadorDaVez();
 
 	Imovel imovelPrisao = new Imovel("Prisão", 0);
 	Imovel imovelFim = new Imovel("Fim", 0);
@@ -30,12 +33,9 @@ public class Tabuleiro {
 	Imovel imovel14 = new Imovel("Brooklin", 50000);
 
 	public void insereCasas() {
-		// INSERE INICIO, FIM E PRISÃO
-		tabuleiro.InsereInicioImovel(imovelInicio);
-		;
-		tabuleiro.InsereImovelNoFim(imovelFim);
 
 		// INSERE IMOVEIS E NOTICIAS
+		tabuleiro.inserePosImovel(imovelInicio, 0);
 		tabuleiro.inserePosImovel(imovel1, 1);
 		tabuleiro.inserePosImovel(imovel2, 2);
 		tabuleiro.inserePosNoticia(null, 3);
@@ -56,6 +56,7 @@ public class Tabuleiro {
 		tabuleiro.inserePosImovel(imovel13, 18);
 		tabuleiro.inserePosImovel(imovel14, 19);
 		tabuleiro.inserePosNoticia(null, 20);
+		tabuleiro.inserePosImovel(imovelFim, 21);
 	}
 
 	public Imovel imovelNaPos(int pos) {
@@ -70,22 +71,59 @@ public class Tabuleiro {
 		return retVal;
 	}
 
+	public void moveJogador(int pos, Jogador jogador) {
+		tabuleiro.inserePosJogador(jogador, pos);
+		jogador.setPosicaoJogador(pos);
+	}
+
+	public boolean verificaNotica(int pos) {
+		try {
+			tabuleiro.moveParaPosicao(pos);
+			if (tabuleiro.atual.proximo.valor.equals("Notícia")) {
+				return true;
+			}
+
+		} catch (NullPointerException e) {
+			System.out.println("Erro !");
+		}
+		return false;
+	}
+
 	public void pagarAluguel(int somaDados, Jogador JogadorAtual) {
 		try {
 			if ((imovelNaPos(somaDados).getJogadorDono() != null)
 					&& (imovelNaPos(somaDados).getJogadorDono() != JogadorAtual)) {
-				JogadorAtual.setSaldoJogador(
-						(JogadorAtual.getSaldoJogador() - imovelNaPos(somaDados).getAluguelConstrucao()));
+	
+				if(imovelNaPos(somaDados).getAluguelConstrucao()<=0) {
+					JogadorAtual.setSaldoJogador(
+							(JogadorAtual.getSaldoJogador() - 100));
+					System.out.println("Aluguel minimo pago com sucesso !   Saldo atual: R$" +JogadorAtual.getSaldoJogador());
+		
+				} else {
+					JogadorAtual.setSaldoJogador(
+							(JogadorAtual.getSaldoJogador() - imovelNaPos(somaDados).getAluguelConstrucao()));
+					System.out.println("Aluguel total pago com sucesso !");
+				}
+				
 			}
+
+			if (JogadorAtual.getSaldoJogador() < imovelNaPos(somaDados).getAluguelConstrucao()) {
+				System.out.println("Sem saldo para pagar aluguel !");
+				jogadorDaVez.retiraJogadorDaVez();
+			}
+			
+			
 		} catch (NullPointerException e) {
-			System.out.println("Erro!");
+			System.out.println("Erro pagar aluguel !");
 		}
 	}
 
 	public boolean adquirirImovel(int somaDados, boolean adquirir, Jogador JogadorAtual) {
 		try {
+
 			if ((imovelNaPos(somaDados).getJogadorDono() == null)
-					&& JogadorAtual.getSaldoJogador() > VerificaValorImovel(somaDados) && (adquirir == true)) {
+					&& JogadorAtual.getSaldoJogador() > VerificaValorImovel(somaDados) && (adquirir == true)
+					&& (!verificaNotica(somaDados) && (imovelNaPos(somaDados).getValorImovel() != 0))) {
 
 				JogadorAtual.setSaldoJogador(JogadorAtual.getSaldoJogador() - imovelNaPos(somaDados).getValorImovel());
 
@@ -99,17 +137,32 @@ public class Tabuleiro {
 				return true;
 			} else {
 
+				if (verificaNotica(somaDados)) {
+					if (adquirir) {
+						System.out.println("Essa casa é uma notícia !");
+					}
+				}
+
+				if (imovelNaPos(somaDados).getValorImovel() == 0) {
+					if (adquirir) {
+						System.out.println("Impossível adquirir este imóvel !");
+					}
+				}
+
 				if (JogadorAtual.getSaldoJogador() < VerificaValorImovel(somaDados)) {
-					System.out.println("Sem saldo para adquirir este imóvel !");
+					if (adquirir) {
+						System.out.println("Sem saldo para adquirir este imóvel !");
+					}
 				} else {
 					if (imovelNaPos(somaDados).getJogadorDono() != null) {
 						System.out.println("Este imóvel já possui um dono !");
+						pagarAluguel(somaDados, JogadorAtual);
 					}
 				}
 			}
 
 		} catch (NullPointerException e) {
-			System.out.println("Erro!");
+			System.out.println("Erro adquirir imóvel !");
 		}
 		return false;
 	}
@@ -176,8 +229,9 @@ public class Tabuleiro {
 				}
 			}
 		} catch (NullPointerException e) {
-			System.out.println("Erro!");
+			System.out.println("Erro comprar construção !");
 		}
 		return false;
 	}
+
 }

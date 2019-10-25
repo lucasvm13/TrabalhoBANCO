@@ -1,7 +1,8 @@
 package Tabuleiro;
 
 import Imovel.Imovel;
-import Noticias.Noticia;
+import Jogador.Jogador;
+import Noticias.NoticiaPilha;
 
 public class TabuleiroLista {
 
@@ -13,7 +14,7 @@ public class TabuleiroLista {
 		return inicio == null;
 	}
 
-	public void InsereInicioNoticia(Noticia n) {
+	public void InsereInicioNoticia(NoticiaPilha n) {
 		Novo novo = new Novo(n);
 		if (Vazio()) {
 			inicio = novo;
@@ -29,7 +30,7 @@ public class TabuleiroLista {
 		}
 	}
 
-	public void inserePosNoticia(Noticia noticia, int posicao) {
+	public void inserePosNoticia(NoticiaPilha noticia, int posicao) {
 
 		Novo novo = new Novo(noticia);
 
@@ -38,6 +39,19 @@ public class TabuleiroLista {
 
 		} else {
 
+			moveParaPosicao(posicao);
+			novo.proximo = atual.proximo;
+			novo.anterior = atual;
+			atual.proximo = novo;
+			atual.proximo.anterior = novo;
+		}
+	}
+
+	public void inserePosJogador(Jogador jogador, int posicao) {
+
+		Novo novo = new Novo(jogador);
+
+		if (posicao != 0) {
 			moveParaPosicao(posicao);
 			novo.proximo = atual.proximo;
 			novo.anterior = atual;
@@ -78,9 +92,13 @@ public class TabuleiroLista {
 	}
 
 	public void moveParaPosicao(int pos) {
-		atual = inicio;
-		for (int i = 1; i < pos; i++) {
-			atual = atual.proximo;
+		try {
+			atual = inicio;
+			for (int i = 1; i < pos; i++) {
+				atual = atual.proximo;
+			}
+		} catch (NullPointerException e) {
+			System.out.println("Erro !");
 		}
 	}
 
@@ -115,7 +133,6 @@ public class TabuleiroLista {
 		Imovel retVal = atual.proximo.objImovel;
 		return retVal;
 	}
-	
 
 	public void InsereImovelNoFim(Imovel imovel) {
 		Novo novo = new Novo(imovel);

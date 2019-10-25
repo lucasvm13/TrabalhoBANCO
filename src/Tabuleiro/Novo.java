@@ -2,7 +2,7 @@ package Tabuleiro;
 
 import Imovel.Imovel;
 import Jogador.Jogador;
-import Noticias.Noticia;
+import Noticias.NoticiaPilha;
 
 public class Novo {
 
@@ -22,7 +22,7 @@ public class Novo {
 		proximo = null;
 		anterior = null;
 	}
-	public Novo(Noticia n) {
+	public Novo(NoticiaPilha n) {
 		valor = "Notícia";
 		proximo = null;
 		anterior = null;
