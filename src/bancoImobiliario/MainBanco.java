@@ -7,7 +7,6 @@ import Jogador.FilaJogadorDaVez;
 import Jogador.Jogador;
 import Noticias.CriaNoticias;
 import Tabuleiro.Tabuleiro;
-import Tabuleiro.TabuleiroLista;
 
 public class MainBanco {
 
@@ -21,8 +20,6 @@ public class MainBanco {
 
 		CriaNoticias criaNoticias = new CriaNoticias();
 		
-		TabuleiroLista tabuleiroLista = new TabuleiroLista();
-
 		tabuleiro.insereCasas();
 		criaNoticias.insereNoticias();
 
@@ -42,9 +39,11 @@ public class MainBanco {
 		System.out.println(" ");
 
 		// INICIAR O JOGO
-
+		int contadorAtual = 0;
 		for (int i = 0; i < 20; i++) {
-
+			
+			contadorAtual++;
+			
 			Random random = new Random();
 			int dado1 = random.nextInt(6);
 			int dado2 = random.nextInt(6);
@@ -73,6 +72,8 @@ public class MainBanco {
 			adquirir = random.nextBoolean();
 			System.out.println(" ");
 
+			
+			// MOSTRA STATUS ANTERIOR
 			System.out.println("Nome: " + JogadorAtual.getNomeJogador() + "\t" + "Posição atual: "
 					+ JogadorAtual.getPosicaoJogador() + "\t" + "Posição atual do tabuleiro: " + somaDados);
 			System.out.println(" ");
@@ -81,6 +82,7 @@ public class MainBanco {
 			
 			System.out.println(" ");
 
+			// MOVIMENTA TABULEIRO
 			if (tabuleiro.verificaNotica(somaDados)) {
 				try {
 				System.out.println("Retirando uma notica... " + criaNoticias.desempilha());
@@ -98,6 +100,7 @@ public class MainBanco {
 
 			System.out.println(" ");
 
+			// MOSTRA STATUS POSTERIOR
 			System.out.println("Nome: " + JogadorAtual.getNomeJogador() + "\t" + "Posição atual: "
 					+ JogadorAtual.getPosicaoJogador() + "\t" + "Posição atual do tabuleiro: " + somaDados);
 			System.out.println(" ");
@@ -113,6 +116,8 @@ public class MainBanco {
 			tabuleiro.colocarConstrução(somaDados, construir, JogadorAtual);
 			System.out.println();
 			
+			// PAGAR ALUGUEL
+			tabuleiro.pagarAluguel(somaDados, JogadorAtual);
 			
 			// INSERE NO INICIO O JOGADOR QUE ACABOU DE SER RETIRADO
 			if (JogadorAtual.getSaldoJogador() <= 0) {
@@ -127,7 +132,7 @@ public class MainBanco {
 
 		System.out.println(" ");
 
-		System.out.println("Jogadores e suas posições atuais:" + listaJogadores);
+		System.out.println("Jogadores e suas posições atuais:" + listaJogadores +" " + "Rodada: " +contadorAtual);
 
 		
 	}

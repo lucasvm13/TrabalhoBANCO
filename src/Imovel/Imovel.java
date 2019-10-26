@@ -1,6 +1,5 @@
 package Imovel;
 
-
 import Jogador.Jogador;
 
 public class Imovel {
@@ -13,6 +12,8 @@ public class Imovel {
 	double impostoConstrucao;
 	int qtdConstrucoes;
 	Jogador jogadorDono = null;
+	double valorCasa = 100;
+	double valorHotel = 300;
 
 	public Imovel() {
 
@@ -32,6 +33,8 @@ public class Imovel {
 		setImpostoConstrucao(0);
 		setQtdConstrucoes(0);
 		setJogadorDono(null);
+		setValorCasa(100);
+		setValorHotel(300);
 
 	}
 
@@ -97,6 +100,22 @@ public class Imovel {
 
 	public void setJogadorDono(Jogador jogadorDono) {
 		this.jogadorDono = jogadorDono;
+	}
+
+	public double getValorCasa() {
+		return valorCasa;
+	}
+
+	public void setValorCasa(double valorCasa) {
+		this.valorCasa = valorCasa;
+	}
+
+	public double getValorHotel() {
+		return valorHotel;
+	}
+
+	public void setValorHotel(double valorHotel) {
+		this.valorHotel = valorHotel;
 	}
 
 }

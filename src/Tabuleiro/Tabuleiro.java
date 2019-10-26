@@ -6,7 +6,6 @@ import ImoveisAdquiridos.ImovelAdquiridoFila;
 import Imovel.Imovel;
 import Jogador.FilaJogadorDaVez;
 import Jogador.Jogador;
-import Noticias.NoticiaPilha;
 
 public class Tabuleiro {
 
@@ -93,28 +92,27 @@ public class Tabuleiro {
 		try {
 			if ((imovelNaPos(somaDados).getJogadorDono() != null)
 					&& (imovelNaPos(somaDados).getJogadorDono() != JogadorAtual)) {
-	
-				if(imovelNaPos(somaDados).getAluguelConstrucao()<=0) {
-					JogadorAtual.setSaldoJogador(
-							(JogadorAtual.getSaldoJogador() - 100));
-					System.out.println("Aluguel minimo pago com sucesso !   Saldo atual: R$" +JogadorAtual.getSaldoJogador());
-		
+
+				if (imovelNaPos(somaDados).getAluguelConstrucao() <= 0) {
+					JogadorAtual.setSaldoJogador((JogadorAtual.getSaldoJogador() - 100));
+					System.out.println(
+							"Aluguel minimo pago com sucesso !   Saldo atual: R$" + JogadorAtual.getSaldoJogador());
+
 				} else {
 					JogadorAtual.setSaldoJogador(
 							(JogadorAtual.getSaldoJogador() - imovelNaPos(somaDados).getAluguelConstrucao()));
-					System.out.println("Aluguel total pago com sucesso !");
+					System.out.println("Aluguel total pago com sucesso !   Saldo atual: R$ " + JogadorAtual.getSaldoJogador());
 				}
-				
+
 			}
 
 			if (JogadorAtual.getSaldoJogador() < imovelNaPos(somaDados).getAluguelConstrucao()) {
 				System.out.println("Sem saldo para pagar aluguel !");
 				jogadorDaVez.retiraJogadorDaVez();
 			}
-			
-			
+
 		} catch (NullPointerException e) {
-			System.out.println("Erro pagar aluguel !");
+			System.out.println("Erro ao pagar aluguel !");
 		}
 	}
 
@@ -156,7 +154,6 @@ public class Tabuleiro {
 				} else {
 					if (imovelNaPos(somaDados).getJogadorDono() != null) {
 						System.out.println("Este imóvel já possui um dono !");
-						pagarAluguel(somaDados, JogadorAtual);
 					}
 				}
 			}
@@ -169,67 +166,97 @@ public class Tabuleiro {
 
 	public boolean colocarConstrução(int somaDados, boolean construir, Jogador JogadorAtual) {
 
-		double valorCasa = 100;
-		double valorHotel = 300;
-
 		try {
 			Random random = new Random();
 
 			int valorEscolha = random.nextInt(3);
 			int qtdConstrucao = random.nextInt(3);
-			if (construir) {
-				if (imovelNaPos(somaDados).getJogadorDono().getNomeJogador().equals(JogadorAtual.getNomeJogador())) {
-					if (valorEscolha == 0) {
-						imovelNaPos(somaDados).setTipoConstrucao(null);
 
-						System.out.println("Nenhum construção inserida");
+			System.out.println("Escolha: " +valorEscolha);
 
-						return false;
+			if ((imovelNaPos(somaDados).getJogadorDono().getNomeJogador().equals(JogadorAtual.getNomeJogador()))
+					&& JogadorAtual.getSaldoJogador() > (imovelNaPos(somaDados).getValorCasa()) && (construir == true)
+					&& (!verificaNotica(somaDados) && (imovelNaPos(somaDados).getValorImovel() != 0))) {
 
-					} else {
+				if (valorEscolha == 0) {
+					System.out
+							.println("Nenhum construção inserida" + "  Saldo atual: " + JogadorAtual.getSaldoJogador());
+				} else {
+					if (valorEscolha == 1) {
 
-						if (valorEscolha == 1) {
-							double valorConstrucoes = valorCasa * qtdConstrucao;
+						if (JogadorAtual.getSaldoJogador() >= (imovelNaPos(somaDados).getValorCasa() * qtdConstrucao)) {
+							imovelNaPos(somaDados).setTipoConstrucao("Casa");
+							imovelNaPos(somaDados).setQtdConstrucoes(qtdConstrucao);
+							imovelNaPos(somaDados).setAluguelConstrucao(qtdConstrucao * 300);
 
-							if (JogadorAtual.getSaldoJogador() > VerificaValorImovel(somaDados)) {
-								imovelNaPos(somaDados).setTipoConstrucao("Casa");
-								imovelNaPos(somaDados).setQtdConstrucoes(qtdConstrucao);
-								imovelNaPos(somaDados).setAluguelConstrucao(qtdConstrucao * 300);
+							JogadorAtual.setSaldoJogador(JogadorAtual.getSaldoJogador()
+									- (imovelNaPos(somaDados).getValorCasa() * qtdConstrucao));
 
-								JogadorAtual.setSaldoJogador(JogadorAtual.getSaldoJogador() - valorConstrucoes);
-
-								System.out.println("Construções inseridas com sucesso !");
-
-							} else {
-								if (construir) {
-									System.out.println("Você não tem dinheiro para construir !");
-								}
-							}
-
+							System.out.println("Construções inseridas com sucesso !" + "  Saldo atual do jogador: "
+									+ JogadorAtual.getSaldoJogador());
 						} else {
-
-							if (valorEscolha == 2) {
-
-								double valorConstrucoes = valorHotel * qtdConstrucao;
-								if (JogadorAtual.getSaldoJogador() >= valorConstrucoes) {
-									imovelNaPos(somaDados).setTipoConstrucao(" Hotel ");
-									imovelNaPos(somaDados).setQtdConstrucoes(qtdConstrucao);
-									imovelNaPos(somaDados).setAluguelConstrucao(qtdConstrucao * 500);
-
-									JogadorAtual.setSaldoJogador(JogadorAtual.getSaldoJogador() - valorConstrucoes);
-
-									System.out.println("Construções inseridas com sucesso !");
-								}
+							if (construir) {
+								System.out.println("Você não tem dinheiro para colocar construções ! "
+										+ "  Saldo atual do jogador: " + JogadorAtual.getSaldoJogador());
 							}
 						}
 
+					} else {
+
+						if (valorEscolha == 2) {
+
+							if (JogadorAtual
+									.getSaldoJogador() >= (imovelNaPos(somaDados).getValorHotel() * qtdConstrucao)) {
+								imovelNaPos(somaDados).setTipoConstrucao(" Hotel ");
+								imovelNaPos(somaDados).setQtdConstrucoes(qtdConstrucao);
+								imovelNaPos(somaDados).setAluguelConstrucao(qtdConstrucao * 500);
+
+								JogadorAtual.setSaldoJogador(JogadorAtual.getSaldoJogador()
+										- (imovelNaPos(somaDados).getValorHotel() * qtdConstrucao));
+
+								System.out.println("Construções inseridas com sucesso !" + "  Saldo atual do jogador: "
+										+ JogadorAtual.getSaldoJogador());
+							}
+						}
 					}
-				} else {
-					System.out.println("Você não é o dono desse imóvel");
+				}
+
+			} else {
+
+				if (verificaNotica(somaDados)) {
+					if (construir) {
+						System.out.println("Essa casa é uma notícia !");
+					}
+				}
+
+				if (imovelNaPos(somaDados).getValorImovel() == 0) {
+					if (construir) {
+						System.out.println("Impossível adquirir este imóvel !");
+					}
+				}
+
+				if (JogadorAtual.getSaldoJogador() < imovelNaPos(somaDados).getValorCasa()) {
+					if (construir) {
+						System.out.println("Sem saldo para constuir !");
+					}
+				}
+
+				if (imovelNaPos(somaDados).getJogadorDono().getNomeJogador() != JogadorAtual.getNomeJogador()) {
+					System.out.println("Este imóvel já possui um dono !");
+					pagarAluguel(somaDados, JogadorAtual);
+				}
+
+				if (imovelNaPos(somaDados).getJogadorDono() == null) {
+					System.out.print("");
+				}
+
+				if (valorEscolha == 0) {
+					System.out
+							.println("Nenhum construção inserida" + "  Saldo atual: " + JogadorAtual.getSaldoJogador());
 				}
 			}
 		} catch (NullPointerException e) {
-			System.out.println("Erro comprar construção !");
+			System.out.println("Não é possível comprar construções !");
 		}
 		return false;
 	}
